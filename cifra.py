@@ -1,5 +1,12 @@
+import unicodedata
+
+def remover_acentos(texto: str) -> str:
+    nfkd = unicodedata.normalize('NFD', texto)
+    return "".join([c for c in nfkd if unicodedata.category(c) != 'Mn'])
+
 def encrypt(text, k):
     result = ""
+    text = remover_acentos(text)  # Remove acentos antes de encriptar
     for char in text:
         if char.isalpha():
             shift = k % 26
@@ -13,6 +20,7 @@ def encrypt(text, k):
 
 def decrypt(text, k):
     result = ""
+    text = remover_acentos(text)  # Remove acentos antes de decriptar
     for char in text:
         if char.isalpha():
             shift = k % 26
